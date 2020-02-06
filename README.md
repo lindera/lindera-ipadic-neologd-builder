@@ -1,1 +1,1 @@
-# lindera-neologd
+# Lindera NEologd
