@@ -1,5 +1,3 @@
-extern crate glob;
-
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fmt::Debug;
 use std::fs::File;
