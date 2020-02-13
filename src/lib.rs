@@ -12,6 +12,7 @@ use byteorder::ByteOrder;
 use byteorder::{LittleEndian, WriteBytesExt};
 use encoding::all::UTF_16LE;
 use encoding::{DecoderTrap, Encoding};
+use glob::glob;
 use lindera_core::core::character_definition::{
     CategoryData, CategoryId, CharacterDefinitions, LookupTable,
 };
@@ -89,45 +90,7 @@ impl<'a> CSVRow<'a> {
     }
 }
 
-const FILENAMES: [&'static str; 35] = [
-    "Adj.csv",
-    "Adnominal.csv",
-    "Adverb.csv",
-    "Auxil.csv",
-    "Conjunction.csv",
-    "Filler.csv",
-    "Interjection.csv",
-    "Noun.adjv.csv",
-    "Noun.adverbal.csv",
-    "Noun.csv",
-    "Noun.demonst.csv",
-    "Noun.nai.csv",
-    "Noun.name.csv",
-    "Noun.number.csv",
-    "Noun.org.csv",
-    "Noun.others.csv",
-    "Noun.place.csv",
-    "Noun.proper.csv",
-    "Noun.verbal.csv",
-    "Others.csv",
-    "Postp-col.csv",
-    "Postp.csv",
-    "Prefix.csv",
-    "Suffix.csv",
-    "Symbol.csv",
-    "Verb.csv",
-    "mecab-user-dict-seed.20200130.csv",
-    "neologd-adjective-std-dict-seed.20151126.csv",
-    "neologd-adjective-verb-dict-seed.20160324.csv",
-    "neologd-adverb-dict-seed.20150623.csv",
-    "neologd-common-noun-ortho-variant-dict-seed.20170228.csv",
-    "neologd-ill-formed-words-dict-seed.20170127.csv",
-    "neologd-interjection-dict-seed.20170216.csv",
-    "neologd-noun-sahen-conn-ortho-variant-dict-seed.20160323.csv",
-    "neologd-proper-noun-ortho-variant-dict-seed.20161110.csv"
-];
-
-fn read_mecab_file(dir: &str, filename: &'static str) -> Result<String, ParsingError> {
+fn read_mecab_file(dir: &str, filename: &str) -> Result<String, ParsingError> {
     let path = Path::new(dir).join(Path::new(filename));
     let mut input_read = File::open(path)?;
     let mut buffer = Vec::new();
@@ -137,14 +100,23 @@ fn read_mecab_file(dir: &str, filename: &'static str) -> Result<String, ParsingE
         .map_err(|_| ParsingError::Encoding)
 }
 
-const SKIP_WORDS: [&'static str; 2] = [
-    "カブシキガイシャ"
-    ,"タカラヅカカゲキダンキセイ"
-];
+const SKIP_WORDS: [&'static str; 2] = ["カブシキガイシャ", "タカラヅカカゲキダンキセイ"];
 
 fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
     println!("BUILD DICT");
-    let files_data: Vec<String> = FILENAMES
+
+    let mut filenames: Vec<String> = Vec::new();
+    for entry in glob(format!("{}/*.csv", input_dir).as_str()).expect("Failed to read glob pattern")
+    {
+        match entry {
+            Ok(path) => {
+                filenames.push(path.file_name().unwrap().to_str().unwrap().to_string());
+            }
+            Err(e) => return Err(ParsingError::ContentError(format!("{}", e))),
+        }
+    }
+
+    let files_data: Vec<String> = filenames
         .iter()
         .map(|filename| read_mecab_file(input_dir, filename))
         .collect::<Result<Vec<String>, ParsingError>>()?;
@@ -236,7 +208,10 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
     let mut fst_build = MapBuilder::new(wtr_fst).unwrap();
     for (key, word_entries) in &word_entry_map {
         let len = word_entries.len() as u64;
-        assert!(len < (1 << 5), format!("{} is {} length. Too long. [{}]", key, len, (1 << 5)));
+        assert!(
+            len < (1 << 5),
+            format!("{} is {} length. Too long. [{}]", key, len, (1 << 5))
+        );
         let val = (id << 5) | len;
         fst_build.insert(&key, val).unwrap();
         id += len;
