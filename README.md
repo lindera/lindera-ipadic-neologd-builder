@@ -48,6 +48,10 @@ You can tokenize text using produced dictionary with `lindera` command:
 EOS
 ```
 
+For more details about `lindera` command, please refer to the following URL:
+
+- [Lindera CLI](https://github.com/lindera-morphology/lindera-cli)
+
 ## API reference
 
 The API reference is available. Please see following URL:
