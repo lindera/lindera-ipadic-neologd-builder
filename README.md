@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Join the chat at https://gitter.im/bayard-search/lindera](https://badges.gitter.im/bayard-search/lindera.svg)](https://gitter.im/bayard-search/lindera?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-IPADIC NEologd dictionary builder for [Lindera](https://github.com/bayard-search/lindera). This project fork from fulmicoton's [kuromoji-rs](https://github.com/fulmicoton/kuromoji-rs).
+IPADIC NEologd dictionary builder for [Lindera](https://github.com/lindera-morphology/lindera). This project fork from fulmicoton's [kuromoji-rs](https://github.com/fulmicoton/kuromoji-rs).
 
 ## Install
 
@@ -24,7 +24,7 @@ The following products are required to build:
 
 ## Dictionary version
 
-This repository only tested *seed/mecab-user-dict-seed.20200130.csv.xz* of [mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd).
+This repository only tested data of [mecab-ipadic-NEologd](https://github.com/neologd/mecab-ipadic-neologd).
 
 *NOTE* : This builder skip 2 words, `カブシキガイシャ` and `タカラヅカカゲキダンキセイ`, to avoid dictionary build failure.
 These words are `SKIP_WORDS` in `src/lib.rs` .
@@ -52,11 +52,11 @@ The API reference is available. Please see following URL:
 
 lindera consists of several projects. The list is following:
 
-- [Lindera](https://github.com/bayard-search/lindera)
-- [Lindera Core](https://github.com/bayard-search/lindera-core)
-- [Lindera Dictionary](https://github.com/bayard-search/lindera-dictionary)
-- [Lindera IPADIC](https://github.com/bayard-search/lindera-ipadic)
-- [lindera IPADIC Builder](https://github.com/bayard-search/lindera-ipadic-builder)
-- [lindera UniDic Builder](https://github.com/bayard-search/lindera-unidic-builder)
-- [lindera IPADIC NEologd Builder](https://github.com/bayard-search/lindera-ipadic-neologd-builder)
-- [Lindera CLI](https://github.com/bayard-search/lindera-cli)
+- [Lindera](https://github.com/lindera-morphology/lindera)
+- [Lindera Core](https://github.com/lindera-morphology/lindera-core)
+- [Lindera Dictionary](https://github.com/lindera-morphology/lindera-dictionary)
+- [Lindera IPADIC](https://github.com/lindera-morphology/lindera-ipadic)
+- [lindera IPADIC Builder](https://github.com/lindera-morphology/lindera-ipadic-builder)
+- [lindera IPADIC NEologd Builder](https://github.com/lindera-morphology/lindera-ipadic-neologd-builder)
+- [lindera UniDic Builder](https://github.com/lindera-morphology/lindera-unidic-builder)
+- [Lindera CLI](https://github.com/lindera-morphology/lindera-cli)

@@ -6,8 +6,5 @@ target
 perf.data*
 
 bin
-mecab-ipadic-neologd
-mecab-ipadic-neologd-master
-mecab-ipadic-neologd-master.zip
-lindera-ipadic-neologd
-lindera-ipadic-*neologd-*.tar.bz2
+mecab-ipadic-neologd-*
+lindera-ipadic-*neologd-*

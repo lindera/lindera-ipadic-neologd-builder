@@ -4,6 +4,11 @@ Lindera Japanese Morphological Analyzer
 
 This software includes a binary and/or source version of data from
 
+  https://github.com/neologd/mecab-ipadic-neologd
+
+which can be obtained from
+
+  https://github.com/neologd/mecab-ipadic-neologd/archive/master.zip
 
 ===========================================================================
 mecab-ipadic-NEologd Notice

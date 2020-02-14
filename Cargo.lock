@@ -150,9 +150,9 @@ checksum = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 
 [[package]]
 name = "lindera-core"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa30129833b291f211afcfe783794148293e80b9f590f8cab79e1a953938e638"
+checksum = "1a2d582117062b741929df3f13cfdab37bac3979e252a7154c66e5f23bcf113f"
 dependencies = [
  "bincode",
  "byteorder",
@@ -163,7 +163,7 @@ dependencies = [
 
 [[package]]
 name = "lindera-ipadic-neologd-builder"
-version = "0.2.0"
+version = "0.1.0"
 dependencies = [
  "bincode",
  "byteorder",
