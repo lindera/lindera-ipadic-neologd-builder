@@ -41,7 +41,7 @@ Building a dictionary with `lindera-ipadic-neologd` command:
 You can tokenize text using produced dictionary with `lindera` command:
 
 ```
-% echo "羽田空港限定トートバッグ" | lindera -d ./lindera-ipadic-2.7.0-20070801-neologd-20200130    [~/github.com/lindera-morphology/lindera-ipadic-neologd-builder]
+% echo "羽田空港限定トートバッグ" | lindera -d ./lindera-ipadic-2.7.0-20070801-neologd-20200130
 羽田空港        名詞,固有名詞,一般,*,*,*,羽田空港,ハネダクウコウ,ハネダクーコー
 限定    名詞,サ変接続,*,*,*,*,限定,ゲンテイ,ゲンテイ
 トートバッグ    名詞,固有名詞,一般,*,*,*,トートバッグ,トートバッグ,トートバッグ
