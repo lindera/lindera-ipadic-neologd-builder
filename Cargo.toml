@@ -8,8 +8,8 @@ authors = [
     ]
 edition = "2018"
 description = "A Japanese morphological dictionary builder for IPADIC NEologd."
-homepage = "https://github.com/bayard-search/lindera-ipadic-neologd-builder"
-repository = "https://github.com/bayard-search/lindera-ipadic-neologd-builder"
+homepage = "https://github.com/lindera-morphology/lindera-ipadic-neologd-builder"
+repository = "https://github.com/lindera-morphology/lindera-ipadic-neologd-builder"
 readme = "README.md"
 keywords = ["japanese", "morphological", "dictionary", "builder", "neologd"]
 categories = ["text-processing"]
