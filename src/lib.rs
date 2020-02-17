@@ -18,7 +18,7 @@ use lindera_core::core::character_definition::{
 };
 use lindera_core::core::unknown_dictionary::UnknownDictionary;
 use lindera_core::core::word_entry::{WordDetail, WordEntry, WordId};
-use tantivy_fst::MapBuilder;
+use lindera_fst::MapBuilder;
 
 #[derive(Debug)]
 pub enum ParsingError {
