@@ -56,16 +56,3 @@ For more details about `lindera` command, please refer to the following URL:
 
 The API reference is available. Please see following URL:
 - <a href="https://docs.rs/lindera-ipadic-neologd-builder" target="_blank">lindera-ipadic-neologd-builder</a>
-
-## Project links
-
-lindera consists of several projects. The list is following:
-
-- [Lindera](https://github.com/lindera-morphology/lindera)
-- [Lindera Core](https://github.com/lindera-morphology/lindera-core)
-- [Lindera Dictionary](https://github.com/lindera-morphology/lindera-dictionary)
-- [Lindera IPADIC](https://github.com/lindera-morphology/lindera-ipadic)
-- [lindera IPADIC Builder](https://github.com/lindera-morphology/lindera-ipadic-builder)
-- [lindera IPADIC NEologd Builder](https://github.com/lindera-morphology/lindera-ipadic-neologd-builder)
-- [lindera UniDic Builder](https://github.com/lindera-morphology/lindera-unidic-builder)
-- [Lindera CLI](https://github.com/lindera-morphology/lindera-cli)

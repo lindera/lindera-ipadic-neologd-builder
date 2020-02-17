@@ -150,20 +150,32 @@ checksum = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 
 [[package]]
 name = "lindera-core"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a2d582117062b741929df3f13cfdab37bac3979e252a7154c66e5f23bcf113f"
+checksum = "b126b6802fc40754989466d3a7ff6d36d3b1b72f7ab99f8e1e7054600956969c"
 dependencies = [
  "bincode",
  "byteorder",
  "encoding",
+ "lindera-fst",
  "serde",
- "tantivy-fst",
+]
+
+[[package]]
+name = "lindera-fst"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a6f0f4e2978dc4e3f4065be40d5ef2a10014aff1723e9fed2269d6de3507f99"
+dependencies = [
+ "byteorder",
+ "levenshtein_automata",
+ "regex-syntax",
+ "utf8-ranges",
 ]
 
 [[package]]
 name = "lindera-ipadic-neologd-builder"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bincode",
  "byteorder",
@@ -171,7 +183,7 @@ dependencies = [
  "encoding",
  "glob",
  "lindera-core",
- "tantivy-fst",
+ "lindera-fst",
 ]
 
 [[package]]
@@ -233,18 +245,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-xid",
-]
-
-[[package]]
-name = "tantivy-fst"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38878efb477cf2efb7d9112b12b230c27d32abdfec4bea5e66095733f2928610"
-dependencies = [
- "byteorder",
- "levenshtein_automata",
- "regex-syntax",
- "utf8-ranges",
 ]
 
 [[package]]
