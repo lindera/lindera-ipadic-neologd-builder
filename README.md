@@ -36,6 +36,22 @@ Building a dictionary with `lindera-ipadic-neologd` command:
  % ./bin/lindera-ipadic-neologd ./mecab-ipadic-neologd-master/build/mecab-ipadic-2.7.0-20070801-neologd-20200130 ./lindera-ipadic-2.7.0-20070801-neologd-20200130
 ```
 
+## Dictionary format
+
+Refer to the [manual](https://ja.osdn.net/projects/ipadic/docs/ipadic-2.7.0-manual-en.pdf/en/1/ipadic-2.7.0-manual-en.pdf.pdf) for details on the IPADIC dictionary format and part-of-speech tags.
+
+| Index | Name (Japanese) | Name (English) | Notes |
+| --- | --- | --- | --- |
+| 0 | 品詞 | part-of-speech | |
+| 1 | 品詞細分類1 | sub POS 1 | |
+| 2 | 品詞細分類2 | sub POS 2 | |
+| 3 | 品詞細分類3 | sub POS 3 | |
+| 4 | 活用形 | conjugation type | |
+| 5 | 活用型 | conjugation form | |
+| 6 | 原形 | base form | |
+| 7 | 読み | reading | |
+| 8 | 発音 | pronunciation | |
+
 ## Tokenizing text using produced dictionary
 
 You can tokenize text using produced dictionary with `lindera` command:
