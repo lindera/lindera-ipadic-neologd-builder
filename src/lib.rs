@@ -17,7 +17,7 @@ use lindera_core::core::character_definition::{
     CategoryData, CategoryId, CharacterDefinitions, LookupTable,
 };
 use lindera_core::core::unknown_dictionary::UnknownDictionary;
-use lindera_core::core::word_entry::{WordDetail, WordEntry, WordId};
+use lindera_core::core::word_entry::{WordEntry, WordId};
 use lindera_fst::MapBuilder;
 
 #[derive(Debug)]
@@ -120,7 +120,7 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
         .iter()
         .map(|filename| read_mecab_file(input_dir, filename))
         .collect::<Result<Vec<String>, ParsingError>>()?;
-    println!("  - read files");
+
     let lines: Vec<String> = files_data
         .iter()
         .flat_map(|file_data: &String| file_data.lines().map(|line| line.to_string()))
@@ -140,17 +140,18 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
                 .collect::<String>()
         })
         .collect();
-    let mut rows: Vec<CSVRow> = lines.iter().map(CSVRow::from_line).collect();
-    println!("  - parsed csv");
-    rows.sort_by_key(|row| row.surface_form.clone());
-    println!("  - sorted csv");
 
-    let wtr_fst = io::BufWriter::new(File::create(
-        Path::new(output_dir).join(Path::new("dict.fst")),
-    )?);
-    let mut wtr_vals = io::BufWriter::new(File::create(
-        Path::new(output_dir).join(Path::new("dict.vals")),
-    )?);
+    let mut rows: Vec<CSVRow> = lines.iter().map(CSVRow::from_line).collect();
+
+    println!("sorting entries");
+    rows.sort_by_key(|row| row.surface_form.clone());
+
+    let wtr_fst = io::BufWriter::new(
+        File::create(Path::new(output_dir).join(Path::new("dict.fst"))).unwrap(),
+    );
+    let mut wtr_vals = io::BufWriter::new(
+        File::create(Path::new(output_dir).join(Path::new("dict.vals"))).unwrap(),
+    );
 
     let mut word_entry_map: BTreeMap<String, Vec<WordEntry>> = BTreeMap::new();
 
@@ -174,25 +175,25 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
         }
     }
 
-    let mut wtr_words = io::BufWriter::new(File::create(
-        Path::new(output_dir).join(Path::new("dict.words")),
-    )?);
-    let mut wtr_words_idx = io::BufWriter::new(File::create(
-        Path::new(output_dir).join(Path::new("dict.wordsidx")),
-    )?);
+    let mut wtr_words = io::BufWriter::new(
+        File::create(Path::new(output_dir).join(Path::new("dict.words"))).unwrap(),
+    );
+    let mut wtr_words_idx = io::BufWriter::new(
+        File::create(Path::new(output_dir).join(Path::new("dict.wordsidx"))).unwrap(),
+    );
     let mut words_buffer = Vec::new();
     for row in rows.iter() {
-        let word = WordDetail {
-            pos_level1: row.pos_level1.to_string(),
-            pos_level2: row.pos_level2.to_string(),
-            pos_level3: row.pos_level3.to_string(),
-            pos_level4: row.pos_level4.to_string(),
-            conjugation_type: row.conjugation_type.to_string(),
-            conjugate_form: row.conjugate_form.to_string(),
-            base_form: row.base_form.to_string(),
-            reading: row.reading.to_string(),
-            pronunciation: row.pronunciation.to_string(),
-        };
+        let word = vec![
+            row.pos_level1.to_string(),
+            row.pos_level2.to_string(),
+            row.pos_level3.to_string(),
+            row.pos_level4.to_string(),
+            row.conjugation_type.to_string(),
+            row.conjugate_form.to_string(),
+            row.base_form.to_string(),
+            row.reading.to_string(),
+            row.pronunciation.to_string(),
+        ];
         let offset = words_buffer.len();
         wtr_words_idx.write_u32::<LittleEndian>(offset as u32)?;
         bincode::serialize_into(&mut words_buffer, &word).unwrap();
@@ -204,7 +205,7 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
 
     let mut id = 0u64;
 
-    println!("  - building fst");
+    println!("building fst");
     let mut fst_build = MapBuilder::new(wtr_fst).unwrap();
     for (key, word_entries) in &word_entry_map {
         let len = word_entries.len() as u64;
@@ -217,14 +218,15 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
         id += len;
     }
     fst_build.finish().unwrap();
-    println!("  - built fst");
+
+    println!("building values");
     for word_entries in word_entry_map.values() {
         for word_entry in word_entries {
             word_entry.serialize(&mut wtr_vals)?;
         }
     }
-    wtr_vals.flush()?;
-    println!(" - built values");
+    wtr_vals.flush().unwrap();
+
     Ok(())
 }
 
