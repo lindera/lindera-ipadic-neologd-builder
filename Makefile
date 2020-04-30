@@ -1,10 +1,8 @@
 BIN_DIR ?= ./bin
 SOURCE_URL ?= https://github.com/neologd/mecab-ipadic-neologd/archive/master.zip
-VERSION ?=
+LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION ?= $(shell cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | select(.name=="lindera-ipadic-neologd-builder") | .version')
 
-ifeq ($(VERSION),)
-  VERSION = $(shell cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | select(.name=="lindera-ipadic-neologd-builder") | .version')
-endif
+.DEFAULT_GOAL := build
 
 clean:
 	rm -rf $(BIN_DIR)
@@ -45,3 +43,12 @@ lindera-ipadic-neologd: lindera-ipadic-neologd-build
 
 test:
 	cargo test
+
+tag:
+	git tag v$(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)
+	git push origin v$(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)
+
+publish:
+ifeq ($(shell cargo show --json lindera-ipadic-neologd-builder | jq -r '.versions[].num' | grep $(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)),)
+	cargo package && cargo publish
+endif
