@@ -6,7 +6,7 @@ IPADIC NEologd dictionary builder for [Lindera](https://github.com/lindera-morph
 
 ## Install
 
-```
+```shell script
 % cargo install lindera-ipadic-neologd-builder
 ```
 
@@ -18,8 +18,8 @@ The following products are required to build:
 - make >= 3.81
 - mecab >= 0.996 (for building a dictionary)
 
-```text
-% make lindera-ipadic-neologd
+```shell script
+% cargo build --release
 ```
 
 ## Dictionary version
@@ -32,8 +32,14 @@ These words are `SKIP_WORDS` in `src/lib.rs` .
 ## Building a dictionary
 
 Building a dictionary with `lindera-ipadic-neologd` command:
-```
- % ./bin/lindera-ipadic-neologd ./mecab-ipadic-neologd-master/build/mecab-ipadic-2.7.0-20070801-neologd-20200130 ./lindera-ipadic-2.7.0-20070801-neologd-20200130
+
+```shell script
+% curl -L https://github.com/neologd/mecab-ipadic-neologd/archive/master.zip > ./mecab-ipadic-neologd-master.zip
+% unzip -o mecab-ipadic-neologd-master.zip
+% ./mecab-ipadic-neologd-master/bin/install-mecab-ipadic-neologd --create_user_dic -p $(pwd)/mecab-ipadic-neologd-master/tmp -y
+% IPADIC_VERSION=$(find ./mecab-ipadic-neologd-master/build/mecab-ipadic-*-neologd-* -type d | awk -F "-" '{print $6"-"$7}')
+% NEOLOGD_VERSION=$(find ./mecab-ipadic-neologd-master/build/mecab-ipadic-*-neologd-* -type d | awk -F "-" '{print $NF}')
+% lindera-ipadic-neologd ./mecab-ipadic-neologd-master/build/mecab-ipadic-${IPADIC_VERSION}-neologd-${NEOLOGD_VERSION} lindera-ipadic-${IPADIC_VERSION}-neologd-${NEOLOGD_VERSION}
 ```
 
 ## Dictionary format
@@ -56,8 +62,11 @@ Refer to the [manual](https://ja.osdn.net/projects/ipadic/docs/ipadic-2.7.0-manu
 
 You can tokenize text using produced dictionary with `lindera` command:
 
-```
+```shell script
 % echo "羽田空港限定トートバッグ" | lindera -d ./lindera-ipadic-2.7.0-20070801-neologd-20200130
+```
+
+```text
 羽田空港        名詞,固有名詞,一般,*,*,*,羽田空港,ハネダクウコウ,ハネダクーコー
 限定    名詞,サ変接続,*,*,*,*,限定,ゲンテイ,ゲンテイ
 トートバッグ    名詞,固有名詞,一般,*,*,*,トートバッグ,トートバッグ,トートバッグ
@@ -66,7 +75,7 @@ EOS
 
 For more details about `lindera` command, please refer to the following URL:
 
-- [Lindera CLI](https://github.com/lindera-morphology/lindera-cli)
+- [Lindera CLI](https://github.com/lindera-morphology/lindera/lindera-cli)
 
 ## API reference
 
