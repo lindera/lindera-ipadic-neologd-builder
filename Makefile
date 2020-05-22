@@ -1,5 +1,4 @@
 BIN_DIR ?= ./bin
-SOURCE_URL ?= https://github.com/neologd/mecab-ipadic-neologd/archive/master.zip
 LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION ?= $(shell cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | select(.name=="lindera-ipadic-neologd-builder") | .version')
 
 .DEFAULT_GOAL := build
