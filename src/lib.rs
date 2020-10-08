@@ -18,7 +18,7 @@ use lindera_core::core::character_definition::{
 };
 use lindera_core::core::unknown_dictionary::UnknownDictionary;
 use lindera_core::core::word_entry::{WordEntry, WordId};
-use lindera_fst::MapBuilder;
+use yada::builder::DoubleArrayBuilder;
 
 #[derive(Debug)]
 pub enum ParsingError {
@@ -146,8 +146,8 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
     println!("sorting entries");
     rows.sort_by_key(|row| row.surface_form.clone());
 
-    let wtr_fst = io::BufWriter::new(
-        File::create(Path::new(output_dir).join(Path::new("dict.fst"))).unwrap(),
+    let mut wtr_da = io::BufWriter::new(
+        File::create(Path::new(output_dir).join(Path::new("dict.da"))).unwrap(),
     );
     let mut wtr_vals = io::BufWriter::new(
         File::create(Path::new(output_dir).join(Path::new("dict.vals"))).unwrap(),
@@ -168,7 +168,7 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
                 .entry(row.surface_form.to_string())
                 .or_insert_with(Vec::new)
                 .push(WordEntry {
-                    word_id: WordId(row_id as u32),
+                    word_id: WordId(row_id as u32, true),
                     word_cost: row.word_cost as i16,
                     cost_id: row.left_id as u16,
                 });
@@ -203,21 +203,27 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
     wtr_words.flush()?;
     wtr_words_idx.flush()?;
 
-    let mut id = 0u64;
+    let mut id = 0u32;
 
-    println!("building fst");
-    let mut fst_build = MapBuilder::new(wtr_fst).unwrap();
+    println!("building da");
+    let mut keyset: Vec<(&[u8], u32)> = vec![];
+    let mut lastlen = 0;
     for (key, word_entries) in &word_entry_map {
-        let len = word_entries.len() as u64;
+        let len = word_entries.len() as u32;
         assert!(
             len < (1 << 5),
             format!("{} is {} length. Too long. [{}]", key, len, (1 << 5))
         );
         let val = (id << 5) | len;
-        fst_build.insert(&key, val).unwrap();
+        keyset.push((key.as_bytes(), val));
         id += len;
+        lastlen += len;
     }
-    fst_build.finish().unwrap();
+    let da_bytes = DoubleArrayBuilder::build(&keyset);
+    assert!(da_bytes.is_some(), "DoubleArray build error. ");
+    wtr_da.write_all(&da_bytes.unwrap()[..])?;
+
+    println!("Last len is {}", lastlen);
 
     println!("building values");
     for word_entries in word_entry_map.values() {
@@ -446,7 +452,7 @@ fn make_costs_array(entries: &[DictionaryEntry]) -> Vec<WordEntry> {
         .map(|e| {
             assert_eq!(e.left_id, e.right_id);
             WordEntry {
-                word_id: WordId(std::u32::MAX),
+                word_id: WordId(std::u32::MAX, true),
                 cost_id: e.left_id as u16,
                 word_cost: e.word_cost as i16,
             }
