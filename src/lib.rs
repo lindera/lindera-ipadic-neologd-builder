@@ -147,9 +147,8 @@ fn build_dict(input_dir: &str, output_dir: &str) -> Result<(), ParsingError> {
     println!("sorting entries");
     rows.sort_by_key(|row| row.surface_form.clone());
 
-    let mut wtr_da = io::BufWriter::new(
-        File::create(Path::new(output_dir).join(Path::new("dict.da"))).unwrap(),
-    );
+    let mut wtr_da =
+        io::BufWriter::new(File::create(Path::new(output_dir).join(Path::new("dict.da"))).unwrap());
     let mut wtr_vals = io::BufWriter::new(
         File::create(Path::new(output_dir).join(Path::new("dict.vals"))).unwrap(),
     );
