@@ -23,7 +23,7 @@ encoding = "0.2"
 glob = "0.3"
 yada = "0.4"
 
-lindera-core = "0.6.0"
+lindera-core = "0.7.0"
 
 [[bin]]
 name = "lindera-ipadic-neologd"
