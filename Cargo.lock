@@ -157,7 +157,7 @@ dependencies = [
 
 [[package]]
 name = "lindera-ipadic-neologd-builder"
-version = "0.1.4"
+version = "0.7.0"
 dependencies = [
  "bincode",
  "byteorder",
