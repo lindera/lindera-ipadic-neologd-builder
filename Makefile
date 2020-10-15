@@ -25,6 +25,6 @@ tag:
 	git push origin v$(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)
 
 publish:
-ifeq ($(shell cargo show --json lindera-ipadic-neologd-builder | jq -r '.versions[].num' | grep $(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)),)
+ifeq ($(shell curl -s -XGET https://crates.io/api/v1/crates/lindera-ipadic-neologd-builder | jq -r '.versions[].num' | grep $(LINDERA_IPADIC_NEOLOGD_BUILDER_VERSION)),)
 	cargo package && cargo publish
 endif
