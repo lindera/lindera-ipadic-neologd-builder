@@ -74,7 +74,7 @@ EOS
 
 For more details about `lindera` command, please refer to the following URL:
 
-- [Lindera CLI](https://github.com/lindera-morphology/lindera/lindera-cli)
+- [Lindera CLI](https://github.com/lindera-morphology/lindera-cli)
 
 ## API reference
 
