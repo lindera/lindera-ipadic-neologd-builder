@@ -219,15 +219,6 @@ impl DictionaryBuilder for IpadicNeologdBuilder {
         let mut word_entry_map: BTreeMap<String, Vec<WordEntry>> = BTreeMap::new();
 
         for (row_id, row) in rows.iter().enumerate() {
-            if row.word_cost == 3978 {
-                println!(
-                    "{} -> {}",
-                    row.surface_form,
-                    row.surface_form.chars().next().ok_or_else(|| {
-                        LinderaErrorKind::Parse.with_error(anyhow::anyhow!("3978 surface_form parse error."))
-                    })? as u32
-                );
-            }
             if !SKIP_WORDS.contains(&row.surface_form) {
                 word_entry_map
                     .entry(row.surface_form.to_string())
