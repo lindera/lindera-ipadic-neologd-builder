@@ -2,8 +2,8 @@ use std::path::Path;
 
 use clap::{crate_authors, crate_description, crate_name, crate_version, App, AppSettings, Arg};
 
-use lindera_ipadic_neologd_builder::IpadicNeologdBuilder;
 use lindera_core::dictionary_builder::DictionaryBuilder;
+use lindera_ipadic_neologd_builder::IpadicNeologdBuilder;
 
 fn main() {
     let app = App::new(crate_name!())

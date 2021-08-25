@@ -13,13 +13,13 @@ use glob::glob;
 use yada::builder::DoubleArrayBuilder;
 
 use lindera_core::character_definition::{CharacterDefinitions, CharacterDefinitionsBuilder};
-use lindera_core::error::{LinderaErrorKind};
+use lindera_core::dictionary_builder::DictionaryBuilder;
+use lindera_core::error::LinderaErrorKind;
+use lindera_core::file_util::read_utf8_file;
 use lindera_core::unknown_dictionary::parse_unk;
+use lindera_core::user_dictionary::UserDictionary;
 use lindera_core::word_entry::{WordEntry, WordId};
 use lindera_core::LinderaResult;
-use lindera_core::dictionary_builder::DictionaryBuilder;
-use lindera_core::user_dictionary::UserDictionary;
-use lindera_core::file_util::read_utf8_file;
 
 #[derive(Debug)]
 pub struct CsvRow<'a> {
@@ -242,7 +242,7 @@ impl DictionaryBuilder for IpadicNeologdBuilder {
         println!("creating {:?}", wtr_words_idx_path);
         let mut wtr_words_idx = io::BufWriter::new(
             File::create(wtr_words_idx_path)
-            .map_err(|err| LinderaErrorKind::Io.with_error(anyhow::anyhow!(err)))?,
+                .map_err(|err| LinderaErrorKind::Io.with_error(anyhow::anyhow!(err)))?,
         );
 
         let mut words_buffer = Vec::new();
@@ -297,7 +297,7 @@ impl DictionaryBuilder for IpadicNeologdBuilder {
         }
 
         let da_bytes = DoubleArrayBuilder::build(&keyset).ok_or_else(|| {
-           LinderaErrorKind::Io.with_error(anyhow::anyhow!("DoubleArray build error."))
+            LinderaErrorKind::Io.with_error(anyhow::anyhow!("DoubleArray build error."))
         })?;
 
         wtr_da
@@ -371,4 +371,3 @@ impl DictionaryBuilder for IpadicNeologdBuilder {
         unimplemented!();
     }
 }
-
