@@ -368,7 +368,7 @@ impl DictionaryBuilder for IpadicNeologdBuilder {
     }
 
     fn build_user_dict(&self, input_file: &Path) -> LinderaResult<UserDictionary> {
-        todo!()
+        unimplemented!();
     }
 }
 
